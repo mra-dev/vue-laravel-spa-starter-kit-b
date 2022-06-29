@@ -13,12 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Route::get('session', function () {
+//    return session()->all();
+//});
+
 Route::get('/', function () {
-    return ['Laravel' => app()->version()];
+    return [
+        'JaryanHub' => '1.0.0',
+        'Laravel' => app()->version()
+    ];
 });
 
 Route::get('/home', function () {
-    return "test";
+    return 'Welcome Home !';
+//    return view('test');
 });
 
 require __DIR__.'/auth.php';

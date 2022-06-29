@@ -1,0 +1,21 @@
+{
+    "The :attribute must contain at least one letter.": "The :attribute must contain at least one letter.",
+    "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
+    "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
+    "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
+
+    "This user is already registered.": "این شماره تلفن قبلا ثبت نام شده است.",
+    "A user registration is still in progress.": "یک ثبت نام با این شماره تلفن درحال انجام است.",
+    "Defined SMS gateway not found.": "درگاه اس ام اس انتخابی وجود ندارد.",
+    "A verification code already sent.": "کد تایید به این شماره قبلا ارسال شده است. کمی منتظر بمانید.",
+    "Verification SMS not sent successfully.": "ارسال پیامک تایید با خطا مواجه شد. لطفا دوباره سعی کنید.",
+    "Verification code sent successfully.": "پیامک تایید با موفقیت ارسال شد.",
+    "Entered verification code is invalid.": "کد تایید وارد شده معتبر نمی‌باشد.",
+    "Phone number verified successfully.": "شماره تلفن با موفقیت تایید شد.",
+    "Entering phone number is required.": "وارد کردن شماره همراه ضروری می‌باشد.",
+    "Entering correct verify code is required.": "وارد کردن کد تایید صحیح ضروری است.",
+    "Entered phone number is invalid.": "شماره تلفن وارد شده معتبر نمی‌باشد.",
+    "Too Many attempts. Try again later.": "دفعات ارسال کد بیش از حد مجاز می‌باشد.",
+    "Too Many Attempts.": "دفعات ارسال درخواست بیش از حد مجاز می‌باشد."
+}

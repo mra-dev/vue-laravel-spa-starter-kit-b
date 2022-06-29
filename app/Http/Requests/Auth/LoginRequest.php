@@ -29,8 +29,10 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'username' => [
+                'required',
+                'regex:' . config('sms.regex')
+            ]
         ];
     }
 
@@ -86,7 +88,7 @@ class LoginRequest extends FormRequest
      *
      * @return string
      */
-    public function throttleKey()
+    public function throttleKey(): string
     {
         return Str::lower($this->input('email')).'|'.$this->ip();
     }

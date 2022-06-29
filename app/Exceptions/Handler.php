@@ -3,7 +3,9 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class Handler extends ExceptionHandler
 {
@@ -43,8 +45,23 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+
+        $this->renderable(function (ThrottleRequestsException $e, Request $request) {
+            if ( $request->expectsJson() ) {
+                return response()->json([
+                    'ok' => false,
+                    'message' => __("Too Many Attempts."),
+                    'data' => [
+                        'throttle_message' => __('auth.throttle', ['seconds' => $e->getHeaders()['Retry-After']]),
+                        'throttle_attempts_limit' => $e->getHeaders()['X-RateLimit-Limit'],
+                        'throttle_attempts_left' => $e->getHeaders()['X-RateLimit-Remaining'],
+                        'throttle_time_left' => $e->getHeaders()['Retry-After'],
+                        'throttle_time_reset' => Carbon::createFromTimestamp($e->getHeaders()['X-RateLimit-Reset'])
+                                                    ->toTimeString()
+                    ]
+                ], 429, $e->getHeaders());
+            }
         });
+
     }
 }

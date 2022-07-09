@@ -16,5 +16,12 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'sms' => [
+        'already_sent' => "OTP Code already sent. Please wait.",
+        'throttle' => "You've been OTP authenticated recently. at least wait 5 minutes."
+    ],
+    'login' => [
+        'success' => "Logged in! Welcome to your Dashboard"
+    ],
 
 ];

@@ -32,6 +32,10 @@ class LoginRequest extends FormRequest
             'username' => [
                 'required',
                 'regex:' . config('sms.regex')
+            ],
+            'password' => [
+                'required',
+                'string'
             ]
         ];
     }
@@ -47,11 +51,16 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $attempt = Auth::attempt([
+            'name' => $this->get('username'),
+            'password' => $this->get('password')
+        ], $this->boolean('remember'));
+
+        if ( !$attempt ) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+                'password' => __('auth.failed'),
             ]);
         }
 
@@ -76,7 +85,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
+            'password' => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),

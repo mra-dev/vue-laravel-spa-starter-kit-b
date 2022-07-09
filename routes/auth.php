@@ -6,22 +6,40 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\VerifyPhoneController;
 use Illuminate\Support\Facades\Route;
 
-Route::group([ 'prefix' => '/login', 'name' => 'login.', 'middleware' => ['guest', 'throttle:auth'] ], function () {
 
-    Route::post('validate', [AuthenticatedSessionController::class, 'validateLogin'])
-        ->name('validate');
+Route::group([ 'middleware' => ['guest', 'throttle:auth'] ], function () {
 
-    Route::post('password', [AuthenticatedSessionController::class, 'password'])
-        ->name('password');
+    Route::group([ 'prefix' => '/login', 'name' => 'login.' ], function () {
+        Route::post('validate', [AuthenticatedSessionController::class, 'validateLogin'])
+            ->name('validate');
+
+        Route::post('/', [AuthenticatedSessionController::class, 'passwordLogin'])
+            ->name('password');
+    });
+
+    Route::group([ 'prefix' => '/register', 'name' => 'register.' ], function () {
+        Route::post('validate', [RegisteredUserController::class, 'validateLogin'])
+            ->name('validate');
+
+        Route::post('/', [RegisteredUserController::class, 'store'])
+            ->name('index');
+    });
+
+    Route::group([ 'prefix' => '/verify', 'name' => 'verify.' ], function () {
+        Route::post('/{type}/send', [VerifyPhoneController::class, 'send'])
+            ->name('send');
+        Route::post('/{type}', [VerifyPhoneController::class, 'verify'])
+            ->name('verify');
+    });
 
 });
 
-
-Route::post('/register', [RegisteredUserController::class, 'store'])
-                ->middleware('guest')
-                ->name('register');
+//Route::post('/register', [RegisteredUserController::class, 'store'])
+//                ->middleware('guest')
+//                ->name('register');
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
                 ->middleware('guest')
@@ -39,6 +57,6 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
                 ->middleware(['auth', 'throttle:6,1'])
                 ->name('verification.send');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+Route::post('/logout', [AuthenticatedSessionController::class, 'logOut'])
                 ->middleware('auth')
                 ->name('logout');

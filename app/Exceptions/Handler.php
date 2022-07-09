@@ -61,6 +61,8 @@ class Handler extends ExceptionHandler
                     ]
                 ], 429, $e->getHeaders());
             }
+
+            return 'Access Limited';
         });
 
     }

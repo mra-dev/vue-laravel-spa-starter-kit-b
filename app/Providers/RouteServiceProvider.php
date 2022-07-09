@@ -50,8 +50,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->by($request->user()?->id ?: $request->ip());
         });
 
+        // TODO: omit userAgent from limitation KEY
         RateLimiter::for('auth', function (Request $request) {
-            return Limit::perMinute(2)
+            return Limit::perMinute(10)
                 ->by( $request->fingerprint() . $request->userAgent());
         });
     }
